@@ -52,9 +52,19 @@ public class Server{
             }
         }
 
+        private void test(){
+            Request req = new Request();
+            req.setTo("You");
+            req.setFrom("me");
+            req.setSubject("Test");
+            req.setMessage("This is a test");
+
+            out.writeObject(req);
+        }
+
         @Override
         public void run(){
-            
+            test();
         }
     }
 }
