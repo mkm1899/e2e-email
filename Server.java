@@ -3,13 +3,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.*;
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 
 public class Server{
     private static int uniqueId = 0;
     private Socket socket = null;
     private ServerSocket server = null;
+    private final static int port = 2589;
    // private DataInputStream in = null;
     //private ObjectInputStream in = null;
     
@@ -19,7 +20,7 @@ public class Server{
         try{
             server = new ServerSocket(port);
             socket = server.accept();
-            Runnble r = new ClientThread(socket, uniqueId++);
+            Runnable r = new ClientThread(socket, uniqueId++);
             Thread t = new Thread(r);
             //clients.add((ClientThread) r);
             t.start();
@@ -30,7 +31,7 @@ public class Server{
     }
 
     public static void main(String[] args){
-        Server server = new Server(2589); 
+        Server server = new Server(port); 
     }
 
     private final class ClientThread implements Runnable {
@@ -44,10 +45,9 @@ public class Server{
             this.id = id;
             this.socket = socket;
             try {
-                sOutput = new ObjectOutputStream(socket.getOutputStream());
-                sInput = new ObjectInputStream(socket.getInputStream());
-                username = (String) sInput.readObject();
-            } catch (IOException | ClassNotFoundException e) {
+                out = new ObjectOutputStream(socket.getOutputStream());
+                in = new ObjectInputStream(socket.getInputStream());
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -55,11 +55,24 @@ public class Server{
         private void test(){
             Request req = new Request();
             req.setTo("You");
-            req.setFrom("me");
+            req.setFrom("Server");
             req.setSubject("Test");
-            req.setMessage("This is a test");
+            req.setMessage("This is a Server test");
 
-            out.writeObject(req);
+            try {
+                out.writeObject(req);
+            } catch(IOException e){
+                e.printStackTrace();
+            }
+            
+            Request inputFromClient = null;
+            try{
+                inputFromClient = (Request) in.readObject();
+            } catch(IOException | ClassNotFoundException e){
+                e.printStackTrace();
+            }
+    
+            System.out.println(inputFromClient);
         }
 
         @Override
