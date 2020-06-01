@@ -27,15 +27,15 @@ public class Client{
     }
 
     private void test(){
-        Request req = new Request();
+        Email req = new Email();
         req.setTo("You");
         req.setFrom("Client");
         req.setSubject("Test");
         req.setMessage("This is a Client test");
         //out.writeObject(req);
-        Request inputFromServer = null;
+        Email inputFromServer = null;
         try{
-            inputFromServer = (Request) in.readObject();
+            inputFromServer = (Email) in.readObject();
         } catch(IOException | ClassNotFoundException e){
             e.printStackTrace();
         }
@@ -48,11 +48,32 @@ public class Client{
         catch (IOException e){
             e.printStackTrace();
         }
-
     }
-    public static void main(String[] args){
-        Scanner sc = new Scanner(System.in);
 
+    private void application(){
+        Scanner sc = new Scanner(System.in);
+        ClientUI.printMainMenu();
+        int optionPicked = Integer.MIN_VALUE;
+        
+        // makes sure the user only inputs a valid number
+        do{
+            if(optionPicked != Integer.MIN_VALUE){
+                System.out.println("Please enter a number between 1 - " + ClientUI.NUMBER_OF_MAIN_MENU_OPTIONS);
+            }
+
+            //makes sure the user only inputed an integer value;
+            while(!sc.hasNextInt()){
+                System.out.println("Please only enter a number between 1 - " + ClientUI.NUMBER_OF_MAIN_MENU_OPTIONS);
+                sc.next();
+            }
+
+            optionPicked = sc.nextInt();
+
+        } while(!(optionPicked <= ClientUI.NUMBER_OF_MAIN_MENU_OPTIONS && optionPicked > 0));
+        sc.close();
+    }
+
+    public static void main(String[] args){
         Client client;
         if(args.length == 2){
             client = new Client(args[0], Integer.parseInt(args[1]));
