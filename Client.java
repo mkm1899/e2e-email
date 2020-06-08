@@ -26,7 +26,15 @@ public class Client{
         this("localhost", 2589);
     }
 
-    private void test(){
+    private void TestBasicEmailFunctionality(){
+        application();
+        Request inputFromServer = Request.getNextRequest(in);
+        if(inputFromServer.getRequestType() == 1){
+            System.out.println(inputFromServer.getEmail());
+        }
+    }
+
+    private void BasicTest(){
         Email req = new Email();
         req.setTo("You");
         req.setFrom("Client");
@@ -51,7 +59,10 @@ public class Client{
     }
 
     private void application(){
-        Scanner sc = new Scanner(System.in);
+        //Scanner sc = new Scanner(System.in);
+        ClientUI ui = new ClientUI(in,out,"temp"); //@TODO
+        ui.MainMenuFunctionality();
+        /*
         ClientUI.printMainMenu();
         int optionPicked = Integer.MIN_VALUE;
         
@@ -70,7 +81,8 @@ public class Client{
             optionPicked = sc.nextInt();
 
         } while(!(optionPicked <= ClientUI.NUMBER_OF_MAIN_MENU_OPTIONS && optionPicked > 0));
-        sc.close();
+        */
+        //sc.close();
     }
 
     public static void main(String[] args){
@@ -85,7 +97,7 @@ public class Client{
             client = new Client();
         }
         client.start();
-        client.test();
+        client.TestBasicEmailFunctionality();
 
     }
 

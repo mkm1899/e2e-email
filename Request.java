@@ -1,4 +1,6 @@
 import java.io.Serializable;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 public class Request implements Serializable {
     private static final long serialVersionUID = 435849834234862L;
@@ -15,11 +17,30 @@ public class Request implements Serializable {
 
     }
 
+    public int getRequestType(){
+        return RequestType;
+    }
+
+    public Email getEmail(){
+        return email;
+    }
+
     public boolean setRequestType(int RequestType){
         if(RequestType <= LARGEST_REQUEST_TYPE && RequestType > 0){
             this.RequestType = RequestType;
             return true;
         }
         return false;
+    }
+
+    public static Request getNextRequest(ObjectInputStream in){
+        Request input = null;
+        try{
+            input = (Request) in.readObject();
+        } catch(IOException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+
+        return input;
     }
 }

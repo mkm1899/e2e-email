@@ -53,26 +53,19 @@ public class Server{
         }
 
         private void test(){
-            Request req = new Request();
+            Email req = new Email();
             req.setTo("You");
             req.setFrom("Server");
             req.setSubject("Test");
             req.setMessage("This is a Server test");
 
-            try {
-                out.writeObject(req);
-            } catch(IOException e){
-                e.printStackTrace();
-            }
+            Email.sendEmail(out, req);
             
-            Request inputFromClient = null;
-            try{
-                inputFromClient = (Request) in.readObject();
-            } catch(IOException | ClassNotFoundException e){
-                e.printStackTrace();
-            }
+            Request inputFromClient = Request.getNextRequest(in);
     
-            System.out.println(inputFromClient);
+            if(inputFromClient.getRequestType() == 1){
+                System.out.println(inputFromClient.getEmail());
+            }
         }
 
         @Override

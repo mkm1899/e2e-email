@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
@@ -20,7 +21,13 @@ final class Email implements Serializable{
     }
 
     public static void sendEmail(ObjectOutputStream out, Email email){
-        Request
+        Request req = new Request(1, email);
+        try{
+            out.writeObject(req);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
     }
     /**
      * @return the to
