@@ -1,3 +1,4 @@
+package e2e;
 import java.io.Serializable;
 
 final class Request implements Serializable{
