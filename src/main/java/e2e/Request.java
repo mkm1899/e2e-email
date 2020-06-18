@@ -1,9 +1,12 @@
+package e2e;
+
 import java.io.Serializable;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
 public class Request implements Serializable {
     private static final long serialVersionUID = 435849834234862L;
+    //Request Type are commented from client perspective
     private int RequestType; //1: send email, 2: request emails
     private final static int LARGEST_REQUEST_TYPE = 2;
     private Email email;

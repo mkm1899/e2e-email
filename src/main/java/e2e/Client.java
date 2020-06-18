@@ -1,3 +1,5 @@
+package e2e;
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -59,30 +61,8 @@ public class Client{
     }
 
     private void application(){
-        //Scanner sc = new Scanner(System.in);
         ClientUI ui = new ClientUI(in,out,"temp"); //@TODO
-        ui.MainMenuFunctionality();
-        /*
-        ClientUI.printMainMenu();
-        int optionPicked = Integer.MIN_VALUE;
-        
-        // makes sure the user only inputs a valid number
-        do{
-            if(optionPicked != Integer.MIN_VALUE){
-                System.out.println("Please enter a number between 1 - " + ClientUI.NUMBER_OF_MAIN_MENU_OPTIONS);
-            }
-
-            //makes sure the user only inputed an integer value;
-            while(!sc.hasNextInt()){
-                System.out.println("Please only enter a number between 1 - " + ClientUI.NUMBER_OF_MAIN_MENU_OPTIONS);
-                sc.next();
-            }
-
-            optionPicked = sc.nextInt();
-
-        } while(!(optionPicked <= ClientUI.NUMBER_OF_MAIN_MENU_OPTIONS && optionPicked > 0));
-        */
-        //sc.close();
+        ui.MainMenuFunctionality(); // it also does more @TODO need to rename
     }
 
     public static void main(String[] args){
@@ -101,7 +81,7 @@ public class Client{
 
     }
 
-    private boolean start(){
+    public boolean start(){
         try {
             socket = new Socket(server, port);
         } catch (IOException e) {
@@ -118,12 +98,6 @@ public class Client{
             return false;
         }
         return true;
-
-        // This thread will listen from the server for incoming messages
-        //Runnable r = new ListenFromServer();
-        //Thread t = new Thread(r);
-        //t.start();
-
     }
 
     /*

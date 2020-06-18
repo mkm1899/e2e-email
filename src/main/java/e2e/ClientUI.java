@@ -1,3 +1,5 @@
+package e2e;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Scanner;

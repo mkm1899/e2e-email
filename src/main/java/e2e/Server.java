@@ -1,8 +1,17 @@
-import java.io.DataInputStream;
+package e2e;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.*;
+/*import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.sql.PreparedStatement;
+*/
+
 //import java.util.ArrayList;
 //import java.util.List;
 
@@ -11,7 +20,7 @@ public class Server{
     private Socket socket = null;
     private ServerSocket server = null;
     private final static int port = 2589;
-   // private DataInputStream in = null;
+    //private DataInputStream in = null;
     //private ObjectInputStream in = null;
     
     //private final List<ClientThread> clients = new ArrayList<>();
@@ -30,14 +39,19 @@ public class Server{
         }
     }
 
+    public Server(){
+        this(port);
+    }
+
     public static void main(String[] args){
-        Server server = new Server(port); 
+        Server server = new Server(); 
     }
 
     private final class ClientThread implements Runnable {
         private Socket socket;
         private ObjectInputStream in = null;
         private ObjectOutputStream out = null;
+        //private Connection databaseConnection;
         int id;
         String emailAddress;
 
@@ -68,9 +82,19 @@ public class Server{
             }
         }
 
+        //stores email in database so the user can check on it
+        private void StoreEmail(Request input){
+
+        }
+
         @Override
         public void run(){
             test();
+            //Request inputFromClient = Request.getNextRequest(in);
+    
+            //if(inputFromClient.getRequestType() == 1){
+            //    StoreEmail(inputFromClient);
+            //}
         }
     }
 }
