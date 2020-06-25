@@ -6,14 +6,12 @@ import java.util.Scanner;
 
 public class ClientUI {
     public final static int NUMBER_OF_MAIN_MENU_OPTIONS = 2;
-    private final static int NUM_MSG_CREAT_OPTS = 5; //the Number of message creation options in the menu below 
-    private ObjectInputStream in = null;
-    private ObjectOutputStream out = null;
+    private final static int NUM_MSG_CREAT_OPTS = 5; //the Number of message creation options in the menu below
+    private Client client;
     private String emailAddress = null;
 
-    public ClientUI(ObjectInputStream in, ObjectOutputStream out, String emailAddress){
-        this.in = in;
-        this.out = out;
+    public ClientUI(Client client, String emailAddress){
+        this.client = client;
         this.emailAddress = emailAddress;
     }
 
@@ -103,7 +101,7 @@ public class ClientUI {
                         System.out.println("You did not specify who you want to send to");
                         break;
                     }
-                    Email.sendEmail(out, email);
+                    client.sendEmail(email);
                     bool = false;
                     break;
                 case 5:

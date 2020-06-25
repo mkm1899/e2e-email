@@ -28,6 +28,14 @@ public class Client{
         this("localhost", 2589);
     }
 
+    public Request getNextRequest(){
+        return Request.getNextRequest(in);
+    }
+
+    public void sendEmail(Email email){
+        Email.sendEmail(out, email);
+    }
+
     private void TestBasicEmailFunctionality(){
         application();
         Request inputFromServer = Request.getNextRequest(in);
@@ -36,32 +44,8 @@ public class Client{
         }
     }
 
-    private void BasicTest(){
-        Email req = new Email();
-        req.setTo("You");
-        req.setFrom("Client");
-        req.setSubject("Test");
-        req.setMessage("This is a Client test");
-        //out.writeObject(req);
-        Email inputFromServer = null;
-        try{
-            inputFromServer = (Email) in.readObject();
-        } catch(IOException | ClassNotFoundException e){
-            e.printStackTrace();
-        }
-
-        System.out.println(inputFromServer);
-
-        try{
-            out.writeObject(req);
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
     private void application(){
-        ClientUI ui = new ClientUI(in,out,"temp"); //@TODO
+        ClientUI ui = new ClientUI(this,"temp"); //@TODO
         ui.MainMenuFunctionality(); // it also does more @TODO need to rename
     }
 
@@ -99,23 +83,4 @@ public class Client{
         }
         return true;
     }
-
-    /*
-    private final class ListenFromServer implements Runnable {
-        public void run() {
-            do {
-                try {
-                    Communication email = (Communication) in.readObject();
-                    System.out.print(msg);
-                    if(msg.toLowerCase().indexOf("/logout") !=-1){
-                        break;
-                    }
-                } catch (IOException | ClassNotFoundException e) {
-                    break;
-                    //e.printStackTrace();
-                }
-            }while (true);
-        }
-    }
-    */
 }
