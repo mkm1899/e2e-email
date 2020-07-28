@@ -25,7 +25,7 @@ public class Client{
     }
 
     public Client(){
-        this("localhost", 2589);
+        this("localhost", 3589);
     }
 
     public Request getNextRequest(){
@@ -60,7 +60,10 @@ public class Client{
         else{
             client = new Client();
         }
-        client.start();
+
+        if(!client.start()){
+            return;
+        }
         client.TestBasicEmailFunctionality();
 
     }

@@ -42,6 +42,7 @@ public class Request implements Serializable {
             input = (Request) in.readObject();
         } catch(IOException | ClassNotFoundException e){
             e.printStackTrace();
+            System.out.println(e.getClass());
         }
 
         return input;

@@ -16,10 +16,11 @@ import java.sql.PreparedStatement;
 //import java.util.List;
 
 public class Server{
+    public static int stdPort = 3589;
     protected static int uniqueId = 0;
     protected Socket socket = null;
     private ServerSocket server = null;
-    private final static int port = 2589;
+    private int port = stdPort;
     protected Runnable r;
     //private DataInputStream in = null;
     //private ObjectInputStream in = null;
@@ -27,16 +28,27 @@ public class Server{
     //private final List<ClientThread> clients = new ArrayList<>();
 
     public Server(int port){
-        try{
+        this.port = port;
+    }
+
+    public void start(){
+        try {
             server = new ServerSocket(port);
-            socket = server.accept();
-            setRunnable();
-            Thread t = new Thread(r);
-            //clients.add((ClientThread) r);
-            t.start();
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
         }
-        catch (IOException e){
-            e.printStackTrace();
+        while(true){
+            try{
+                socket = server.accept();
+                setRunnable();
+                Thread t = new Thread(r);
+                //clients.add((ClientThread) r);
+                t.start();
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -44,12 +56,11 @@ public class Server{
         r = new ServerThread(socket, uniqueId++);
     }
 
-    public Server(){
-        this(port);
-    }
+    public Server(){}
 
     public static void main(String[] args){
         Server server = new Server(); 
+        server.start();
     }
 
 }

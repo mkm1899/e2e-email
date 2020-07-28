@@ -23,21 +23,22 @@ public class ServerThreadForClientTesting extends ServerThread {
     // The server recieves email and will eventually return it. 
     // Then it sends somthing to the client to see if it recieved it.
     private Object basicConnectionTest(){
-        Email req = new Email();
-        Email rtn = null;
-        req.setTo("Client");
-        req.setFrom("Server");
-        req.setSubject("Test");
-        req.setMessage("This is a Server test");
+        //Email req = new Email();
+        Object rtn = null;
+
+        Email.sendEmail(out, stdTest);
     
         Request inputFromClient = Request.getNextRequest(super.in);
 
         if(inputFromClient.getRequestType() == 1){
             rtn = inputFromClient.getEmail();
-            System.out.println(rtn);
+            //System.out.println(rtn);
+        }
+        else{
+            rtn = new Exception("email recieved was of the wrong type");
         }
 
-        Email.sendEmail(out, req);
+        //Email.sendEmail(out, req);
         return rtn;
     }
 
@@ -49,7 +50,7 @@ public class ServerThreadForClientTesting extends ServerThread {
         }
         
         if(options == 1){
-            basicConnectionTest();
+            return basicConnectionTest();
         }
         return null;
     }

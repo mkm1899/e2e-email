@@ -10,9 +10,18 @@ public class ClientUI {
     private Client client;
     private String emailAddress = null;
 
+    public static void clearSystemInput(){
+        Scanner sc = new Scanner(System.in);
+        while(sc.hasNext()){
+            sc.next();
+        }
+        sc.close();
+    }
+
     public ClientUI(Client client, String emailAddress){
         this.client = client;
         this.emailAddress = emailAddress;
+        //clearSystemInput();
     }
 
     public static void printMainMenu(){
@@ -31,9 +40,11 @@ public class ClientUI {
             }
 
             //makes sure the user only inputed an integer value;
-            while(!sc.hasNextInt()){
+            while(sc.hasNext() && !sc.hasNextInt()){
                 System.out.println("Please only enter a number between 1 - " + maxValue);
-                sc.next();
+                if(optionPicked != Integer.MIN_VALUE){
+                    sc.next();
+                }
             }
 
             optionPicked = sc.nextInt();

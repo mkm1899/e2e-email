@@ -1,28 +1,38 @@
 package e2e;
 
-public class ServerForClientTesting extends Server implements Runnable{
+import java.util.ArrayList;
+
+public class ServerForClientTesting extends Server {
     private int option;
     private int msDelay;
-    private ServerThreadForClientTesting thread;
+    private ArrayList<ServerThreadForClientTesting> threads;
 
     public ServerForClientTesting(int option, int msDelay){
         super();
         this.option = option;
         this.msDelay = msDelay;
+        threads = new ArrayList<ServerThreadForClientTesting>();
     }
 
-    public Object getOutput(){
-        return thread.getOutputFromTest();
+    public ServerForClientTesting(int option, int msDelay, int port){
+        super(port);
+        this.option = option;
+        this.msDelay = msDelay;
+        threads = new ArrayList<ServerThreadForClientTesting>();
+    }
+
+    public void start(){
+        super.start();
+    }
+
+    public Object getOutput(int i){
+        return threads.get(i).getOutputFromTest();
     }
     
     @Override
     protected void setRunnable(){
-        thread = new ServerThreadForClientTesting(super.socket, super.uniqueId, option, msDelay);
-        super.r =  thread;
-    }
-
-    @Override
-    public void run(){
-
+        ServerThreadForClientTesting thread = new ServerThreadForClientTesting(super.socket, super.uniqueId, option, msDelay);
+        threads.add(thread);
+        super.r = thread;
     }
 }
