@@ -23,8 +23,8 @@ public class Database {
 
         try{
             System.out.println("WRITE");
-            String u = "user";
-            String p = "ASD732rk@nfba";
+            String u = "root";//"user"; //"root"
+            String p = "root";//"ASD732rk@nfba"; //"root"
             String url = "jdbc:mysql://localhost:6379/e2e";
             databaseConnection = DriverManager.getConnection(url, u, p);
             System.out.println("NO ERROR");

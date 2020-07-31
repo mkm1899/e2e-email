@@ -35,10 +35,10 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClassName = 'e2e.Server'
-    //mainClassName = 'e2e.Client'
+    //mainClassName = 'e2e.Server'
+    mainClassName = 'e2e.Client'
 }
 
-//run{
-//    standardInput = System.in
-//}
+run{
+    standardInput = System.in
+}

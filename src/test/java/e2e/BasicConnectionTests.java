@@ -4,7 +4,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import java.lang.Class;
 
-public class ClientTest {
+public class BasicConnectionTests {
 
     //returns whether an object is an exception or not
     private boolean isObjException(Object obj){
