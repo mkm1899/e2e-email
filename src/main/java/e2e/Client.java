@@ -7,10 +7,16 @@ import java.io.ObjectOutputStream;
 import java.net.*;
 import java.util.Scanner;
 
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+
+
 public class Client{
-    private Socket socket = null;
+    private SSLSocket socket = null;
     private ObjectInputStream in = null;
     private ObjectOutputStream out = null;
+    private static final String[] protocols = new String[] {"TLSv1.3"};
+    private static final String[] cipher_suites = new String[] {"TLS_AES_192_GCM_SHA256"};  //GCM is the counter method
 
     private final String server;
     private final int port;
@@ -70,7 +76,9 @@ public class Client{
 
     public boolean start(){
         try {
-            socket = new Socket(server, port);
+            socket = (SSLSocket) SSLSocketFactory.getDefault().createSocket(server, port);
+
+            socket.startHandshake();
         } catch (IOException e) {
             System.out.println("Error 404: Server not found");
             return false;

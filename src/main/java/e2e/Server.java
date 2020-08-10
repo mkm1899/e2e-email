@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.*;
+
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
 /*import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -18,10 +22,14 @@ import java.sql.PreparedStatement;
 public class Server{
     public static int stdPort = 3589;
     protected static int uniqueId = 0;
+    //protected Socket socket = null;
+    //private ServerSocket server = null;
     protected Socket socket = null;
-    private ServerSocket server = null;
+    private SSLServerSocket server = null;
     private int port = stdPort;
     protected Runnable r;
+    private static final String[] protocols = new String[] {"TLSv1.3"};
+    private static final String[] cipher_suites = new String[] {"TLS_AES_128_GCM_SHA256"};
     //private DataInputStream in = null;
     //private ObjectInputStream in = null;
     
@@ -33,7 +41,9 @@ public class Server{
 
     public void start(){
         try {
-            server = new ServerSocket(port);
+            server = (SSLServerSocket) SSLServerSocketFactory.getDefault().createServerSocket(port);
+            server.setEnabledProtocols(protocols);
+            server.setEnabledCipherSuites(cipher_suites);
         } catch (IOException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
