@@ -12,17 +12,19 @@ public class BasicConnectionTests {
         return (e.getClass().isInstance(obj));
     }
 
+    
     // tests a Client-Server 1 on 1 Connection
     @Test
     public void testBasicConnection() throws Exception {
+        int port = Server.stdPort + 1;
         // ServerForClientTesting server = new ServerForClientTesting(1, 0);
-        ServerTest server = new ServerTest(1, 0);
+        ServerTest server = new ServerTest(1, 0, port);
         Thread t = new Thread(server);
         t.start();
 
         Thread.sleep(500);
        
-        Client client = new Client();
+        Client client = new Client(port);
         client.start();
 
         // listens to Server and recieves Email and makes sure the email recieved is
@@ -66,13 +68,13 @@ public class BasicConnectionTests {
 
         assertTrue(errorMsg, condition);
     }
-
+    
     
     // tests a Client-Server 2 on 1 Connection
     @Test
     public void testMultBasicConnection() throws Exception {
         // ServerForClientTesting server = new ServerForClientTesting(1, 0);
-        int port = Server.stdPort + 1;
+        int port = Server.stdPort + 2;
         ServerTest server = new ServerTest(1, 0, port);
         Thread t = new Thread(server);
         t.start();

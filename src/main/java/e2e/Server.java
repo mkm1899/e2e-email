@@ -3,11 +3,18 @@ package e2e;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.FileInputStream;
 import java.net.*;
+import java.security.KeyStore;
+import javax.net.*;
+import javax.net.ssl.*;
+import javax.security.cert.X509Certificate;
 
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLServerSocket;
-import javax.net.ssl.SSLServerSocketFactory;
+
+//import javax.net.ssl.SSLSocket;
+//import javax.net.ssl.SSLServerSocket;
+//import javax.net.ssl.SSLServerSocketFactory;
+
 /*import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -25,7 +32,7 @@ public class Server{
     //protected Socket socket = null;
     //private ServerSocket server = null;
     protected Socket socket = null;
-    private SSLServerSocket server = null;
+    private ServerSocket server = null;
     private int port = stdPort;
     protected Runnable r;
     private static final String[] protocols = new String[] {"TLSv1.3"};
@@ -39,11 +46,37 @@ public class Server{
         this.port = port;
     }
 
+    //sets keystores and truststores
+    private SSLServerSocketFactory getServerSocketFactory(){
+        SSLServerSocketFactory ssf = null;
+        SSLContext ctx;
+        KeyManagerFactory kmf;
+        KeyStore ks;
+        try{
+            char[] password = "password".toCharArray();
+            
+            ctx = SSLContext.getInstance("TLSv1.3");
+            kmf = KeyManagerFactory.getInstance("SunX509");
+            ks = KeyStore.getInstance("JKS");
+
+            ks.load(new FileInputStream("testkeys"), password);
+            kmf.init(ks, password);
+            ctx.init(kmf.getKeyManagers(), null, null);
+
+            ssf = ctx.getServerSocketFactory();
+        } catch (Exception e){
+            //System.err.println("Setting up Server Socket Factory failed\n Make sure the keystore is of the right name and place");
+            e.printStackTrace();
+        }
+
+        return ssf;
+    }
+
     public void start(){
         try {
-            server = (SSLServerSocket) SSLServerSocketFactory.getDefault().createServerSocket(port);
-            server.setEnabledProtocols(protocols);
-            server.setEnabledCipherSuites(cipher_suites);
+            server = getServerSocketFactory().createServerSocket(port);
+            //server.setEnabledProtocols(protocols);
+            //server.setEnabledCipherSuites(cipher_suites);
         } catch (IOException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();

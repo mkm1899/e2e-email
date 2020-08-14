@@ -81,6 +81,7 @@ public class Client{
             socket.startHandshake();
         } catch (IOException e) {
             System.out.println("Error 404: Server not found");
+            e.printStackTrace();
             return false;
         }
 

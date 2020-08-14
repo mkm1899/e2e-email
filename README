@@ -1,0 +1,4 @@
+In order to start local testing you will need to add ca-certs to your list of trusted certificate
+    keytool -import -noprompt -trustcacerts -alias mark -file ca-cert -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit
+
+changeit is the default password
