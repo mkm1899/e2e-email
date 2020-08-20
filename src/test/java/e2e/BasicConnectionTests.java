@@ -12,25 +12,34 @@ public class BasicConnectionTests {
         return (e.getClass().isInstance(obj));
     }
 
-    
+    private void waitTillServerReady(ServerTest server){
+        while(!server.isServerReady()){
+            Thread.yield();
+        }     
+    }
     // tests a Client-Server 1 on 1 Connection
     @Test
     public void testBasicConnection() throws Exception {
-        int port = Server.stdPort + 1;
-        // ServerForClientTesting server = new ServerForClientTesting(1, 0);
+        int port = Server.stdPort + 5;
         ServerTest server = new ServerTest(1, 0, port);
         Thread t = new Thread(server);
         t.start();
 
-        Thread.sleep(500);
-       
         Client client = new Client(port);
+        waitTillServerReady(server);
         client.start();
+
+        //Thread.sleep(1000);
 
         // listens to Server and recieves Email and makes sure the email recieved is
         // correct
+        
         Request inputFromServer;
-        inputFromServer = client.getNextRequest();
+        Object temp;
+        do{
+            temp = client.getNextRequest();
+        }while(temp == null);
+        inputFromServer = (Request) temp;
 
         // Sends email to server and makes sure the server gets it
         Email req = new Email("You", "Client", "Test", "This is a Client test");
@@ -73,18 +82,17 @@ public class BasicConnectionTests {
     // tests a Client-Server 2 on 1 Connection
     @Test
     public void testMultBasicConnection() throws Exception {
-        // ServerForClientTesting server = new ServerForClientTesting(1, 0);
         int port = Server.stdPort + 2;
         ServerTest server = new ServerTest(1, 0, port);
         Thread t = new Thread(server);
         t.start();
 
-        Thread.sleep(500);
+        //Thread.sleep(1000);
        
         Client client1 = new Client(port);
-        client1.start();
-
         Client client2 = new Client(port);
+        waitTillServerReady(server);
+        client1.start();
         client2.start();
 
         // listens to Server and recieves Email and makes sure the email recieved is

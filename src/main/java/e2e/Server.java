@@ -34,6 +34,7 @@ public class Server{
     protected Socket socket = null;
     private ServerSocket server = null;
     private int port = stdPort;
+    private boolean ready = false; //for showing when the server is ready
     protected Runnable r;
     private static final String[] protocols = new String[] {"TLSv1.3"};
     private static final String[] cipher_suites = new String[] {"TLS_AES_128_GCM_SHA256"};
@@ -72,6 +73,12 @@ public class Server{
         return ssf;
     }
 
+    public boolean isServerReady(){return ready;}
+
+    private void setServerReady(){
+        ready = true;
+    }
+
     public void start(){
         try {
             server = getServerSocketFactory().createServerSocket(port);
@@ -81,6 +88,9 @@ public class Server{
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
+
+        setServerReady();
+
         while(true){
             try{
                 socket = server.accept();

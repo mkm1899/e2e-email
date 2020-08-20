@@ -18,6 +18,12 @@ public class ServerTest implements Runnable{
         this.port = port;
     }
    
+    public boolean isServerReady(){
+        if(server == null){
+            return false;
+        }
+        return server.isServerReady();
+    }
 
     public Object getOutput(int i){
         return server.getOutput(i);
