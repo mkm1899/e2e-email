@@ -42,9 +42,9 @@ public class ClientUI {
             //makes sure the user only inputed an integer value;
             while(sc.hasNext() && !sc.hasNextInt()){
                 System.out.println("Please only enter a number between 1 - " + maxValue);
-                if(optionPicked != Integer.MIN_VALUE){
-                    sc.next();
-                }
+                //if(optionPicked != Integer.MIN_VALUE){
+                sc.next();
+                //}
             }
 
             optionPicked = sc.nextInt();
