@@ -30,13 +30,14 @@ dependencies {
     // This dependency is used to connect the application to the mysql database
     //compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.20'
     //runtime "mysql:mysql-connector-java:8.0.20"
-    implementation 'mysql:mysql-connector-java:8.0.20'
+    implementation 'mysql:mysql-connector-java:8.0.21'
 }
 
 application {
     // Define the main class for the application.
-    //mainClassName = 'e2e.Server'
-    mainClassName = 'e2e.Client'
+    mainClassName = 'e2e.Server'
+    //mainClassName = 'e2e.Client'
+    //mainClassName = 'e2e.Database'
 }
 
 run{

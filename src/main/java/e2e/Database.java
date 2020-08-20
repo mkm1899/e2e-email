@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
+import java.sql.*;
 
 public class Database {
     private Connection databaseConnection;
@@ -19,24 +20,29 @@ public class Database {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e){
             e.printStackTrace();
+            System.exit(1);
         }
 
         try{
             System.out.println("WRITE");
-            String u = "root";//"user"; //"root"
-            String p = "root";//"ASD732rk@nfba"; //"root"
-            String url = "jdbc:mysql://localhost:6379/e2e";
+            //String u = "root";//"user"; //"root"
+            //String p = "root";//"ASD732rk@nfba"; //"root"
+            String u = "user"; //"root"
+            String p = "ASD732rk@nfba"; //"root"
+            //String url = "jdbc:mysql://localhost:3306/e2e";
+            String url = "jdbc:mysql://localhost:3306/e2e?serverTimezone=UTC";
             databaseConnection = DriverManager.getConnection(url, u, p);
-            System.out.println("NO ERROR");
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("NO ERROR");
+        
+        try{
+            databaseConnection.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
-    public void doSomthing(){
-        System.out.println("28000");
-    }
     /*
     public void AddEmail(Email email){
 

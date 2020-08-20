@@ -51,8 +51,8 @@ public class Client{
     }
 
     private void application(){
-        ClientUI ui = new ClientUI(this,"temp"); //@TODO
-        ui.MainMenuFunctionality(); // it also does more @TODO need to rename
+        ClientUI ui = new ClientUI(this,"temp");
+        ui.MainMenuFunctionality(); 
     }
 
     public static void main(String[] args){

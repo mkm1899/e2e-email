@@ -37,7 +37,7 @@ public class Request implements Serializable {
     }
 
     public static Request getNextRequest(ObjectInputStream in){
-        Request input = null;
+        Request input = new Request(-1, null);
         try{
             input = (Request) in.readObject();
         } catch(IOException | ClassNotFoundException e){
