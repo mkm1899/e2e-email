@@ -2,3 +2,6 @@ In order to start local testing you will need to add ca-certs to your list of tr
     keytool -import -noprompt -trustcacerts -alias mark -file ca-cert -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit
 
 changeit is the default password
+
+
+The database we use in this application is mysql and make sure to download mysql client as well.
